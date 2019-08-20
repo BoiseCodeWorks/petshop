@@ -39,5 +39,33 @@ namespace Petshop.Data
         throw e;
       }
     }
+
+    internal Cat GetCatById(int id)
+    {
+      try
+      {
+        return _db.QuerySingle<Cat>(@"SELECT * FROM CATS WHERE id = @id", new {id});
+      }
+      catch (Exception e)
+      {
+        throw new Exception("Invalid Id");
+      }
+    }
+
+    internal void DeleteById(int id)
+    {
+        var success = _db.Execute(@"DELETE FROM cats WHERE id = @id", new {id});
+        if (success == 0)
+        {
+          throw new Exception("Delort Failed");
+        }
+    }
+
+    internal void UpdateByID(Cat catToUpdate){
+      var success = _db.Execute("UPDATE cats SET name = @Name, age = @Age, fur = @Fur WHERE id = @Id", catToUpdate);
+      if(success == 0){
+          throw new Exception("Delort didn't fail, because this is an update request. Which did fail.");
+      }
+    }
   }
 }

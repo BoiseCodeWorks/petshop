@@ -34,9 +34,16 @@ namespace Petshop.Controllers
 
     // GET api/values/5
     [HttpGet("{id}")]
-    public ActionResult<Cat> Get(string id)
+    public ActionResult<Cat> Get(int id)
     {
-      return null;
+      try
+      {
+        return Ok(_repo.GetCatById(id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
     }
 
     // POST api/values
@@ -57,10 +64,31 @@ namespace Petshop.Controllers
 
     // PUT api/values/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value) { }
+    public ActionResult<string> Put(int id, [FromBody] Cat catToUpdate) { 
+      try
+      {
+          _repo.UpdateByID(catToUpdate);
+          return Ok("Seems to have worked");
+      }
+      catch (Exception e)
+      {
+          return BadRequest(e.Message);
+      }
+    }
 
     // DELETE api/values/5
     [HttpDelete("{id}")]
-    public void Delete(int id) { }
+    public ActionResult<string> Delete(int id) 
+    { 
+      try
+      {
+          _repo.DeleteById(id);
+          return Ok("Successfully delorted");
+      }
+      catch (System.Exception)
+      {
+          return BadRequest("Bad request");
+      }
+    }
   }
 }
