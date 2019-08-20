@@ -38,6 +38,9 @@ namespace Petshop
         private IDbConnection CreateDbConnection()
         {
             var connectionstring = Configuration.GetSection("DB").GetValue<string>("gearhost");
+
+            // Environment.GetEnvironmentVariable("CONNECTIONSTRING").ToString();
+
             return new MySqlConnection(connectionstring);
         }
 

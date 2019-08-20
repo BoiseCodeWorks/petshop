@@ -22,9 +22,12 @@ namespace Petshop.Controllers
     [HttpGet]
     public ActionResult<IEnumerable<Cat>> Get()
     {
-      try{
+      try
+      {
         return Ok(_repo.GetCats());
-      }catch(Exception e){
+      }
+      catch (Exception e)
+      {
         return BadRequest(e.Message);
       }
     }
@@ -40,8 +43,16 @@ namespace Petshop.Controllers
     [HttpPost]
     public ActionResult<Cat> Post([FromBody] Cat catData)
     {
-      //TODO Attach to some db
-      return null;
+      try
+      {
+        var cat = _repo.CreateCat(catData);
+        return Created($"/api/cats/{cat.Id}", cat);
+      }
+      catch (Exception e)
+      {
+        return BadRequest("Bad Data you make me sad :(");
+      }
+
     }
 
     // PUT api/values/5
